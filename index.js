@@ -61,7 +61,7 @@ function questionGenerator() {
 
 questionGenerator();
 answersGenerator();
-
+window.localStorage.clear();
 // Start Game
 startBtn.addEventListener("click", () => { 
   startPanel.classList.add("displayNon");
