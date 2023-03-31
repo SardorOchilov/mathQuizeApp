@@ -1,10 +1,13 @@
 const currentScoreElement = document.getElementById("current-score");
-const bestScoreElement = document.getElementById("best-score");
+const bestScoreElement = document.querySelectorAll("#best-score");
 const question = document.querySelector(".question h2");
 const optionElements = document.querySelector(".answers").children;
+const startBtn = document.getElementById("start-btn");
+const startPanel = document.querySelector(".start-panel");
 
-let currentScore = 0;
-let bestScore = 0;
+let currentScore = 15;
+let bestScore = window.localStorage.getItem("best") || 0;
+bestScoreElement.forEach((score) => (score.textContent = bestScore));
 const logicalOperators = ["+", "-", "*"];
 let randomOperator = null;
 let nums = [];
@@ -33,9 +36,7 @@ function answersGenerator() {
   let j = 1;
   while (j < 4) {
     answerOptionNums[j] =
-      Math.floor(Math.random() * 100) +
-      Math.floor(Math.random() * 100) -
-      Math.floor(Math.random() * 100);
+      Math.floor(Math.random() * 100) * 2 - Math.floor(Math.random() * 100);
     if (answerOptionNums[j] !== answer) {
       j++;
     }
@@ -61,6 +62,11 @@ function questionGenerator() {
 questionGenerator();
 answersGenerator();
 
+// Start Game
+startBtn.addEventListener("click", () => { 
+  startPanel.classList.add("displayNon");
+});
+
 // Check answer
 for (let i = 0; i < 4; i++) {
   optionElements[i].addEventListener("click", (e) => {
@@ -70,9 +76,12 @@ for (let i = 0; i < 4; i++) {
       questionGenerator();
       answersGenerator();
     } else {
-      if (currentScore > +bestScoreElement.textContent) {
-        bestScoreElement.textContent = currentScore;
+      if (currentScore > +bestScoreElement[0].textContent) {
+        window.localStorage.setItem("best", currentScore);
+        bestScoreElement.forEach((score) => (score.textContent = currentScore));
+        console.log(bestScoreElement[1]);
       }
+          startPanel.classList.remove("displayNon");
       currentScore = 0;
       currentScoreElement.textContent = currentScore;
       questionGenerator();
