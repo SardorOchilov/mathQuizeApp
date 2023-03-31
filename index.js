@@ -5,7 +5,7 @@ const optionElements = document.querySelector(".answers").children;
 const startBtn = document.getElementById("start-btn");
 const startPanel = document.querySelector(".start-panel");
 
-let currentScore = 15;
+let currentScore = 0;
 let bestScore = window.localStorage.getItem("best") || 0;
 bestScoreElement.forEach((score) => (score.textContent = bestScore));
 const logicalOperators = ["+", "-", "*"];
@@ -79,7 +79,6 @@ for (let i = 0; i < 4; i++) {
       if (currentScore > +bestScoreElement[0].textContent) {
         window.localStorage.setItem("best", currentScore);
         bestScoreElement.forEach((score) => (score.textContent = currentScore));
-        console.log(bestScoreElement[1]);
       }
           startPanel.classList.remove("displayNon");
       currentScore = 0;
